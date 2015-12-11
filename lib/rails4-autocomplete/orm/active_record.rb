@@ -41,7 +41,7 @@ module Rails4Autocomplete
         term = term.gsub(/([_%\\])/, '\\\\\1')
         is_full_search = options[:full]
         like_clause = (postgres?(model) ? 'ILIKE' : 'LIKE')
-        ["unaccent(#{options[:table_name]}.#{method}) #{like_clause} ?", "unaccent(?)", "#{(is_full_search ? '%' : '')}#{term.downcase}%"]
+        ["unaccent(#{options[:table_name]}.#{method}) #{like_clause} ?", "unaccent(#{(is_full_search ? '%' : '')}#{term.downcase}%)"]
       end
 
       def postgres?(model)
