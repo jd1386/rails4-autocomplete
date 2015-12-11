@@ -40,14 +40,9 @@ module Rails4Autocomplete
         table_name = model.table_name
         term = term.gsub(/([_%\\])/, '\\\\\1')
         is_full_search = options[:full]
-        like_clause = (postgres?(model) ? 'ILIKE' : 'LIKE')
-        ["unaccent(#{options[:table_name]}.#{method}) #{like_clause} ?", "unaccent(#{(is_full_search ? '%' : '')}#{term.downcase}%)"]
+        ["unaccent(#{options[:table_name]}.#{method}) ilike unaccent(?)", "#{(is_full_search ? '%' : '')}#{term.downcase}%"]
       end
 
-      def postgres?(model)
-        # Figure out if this particular model uses the PostgreSQL adapter
-        model.connection.class.to_s.match(/PostgreSQLAdapter/)
-      end
     end
   end
 end
