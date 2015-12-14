@@ -40,7 +40,7 @@ module Rails4Autocomplete
         table_name = model.table_name
         term = term.gsub(/([_%\\])/, '\\\\\1')
         is_full_search = options[:full]
-        ["unaccent(#{options[:table_name]}.#{method}) ilike unaccent(?)", "#{(is_full_search ? '%' : '')}#{term}%"]
+        ["#{options[:table_name]}.#{method} ilike unaccent(?)", "#{(is_full_search ? '%' : '')}#{term}%"]
       end
 
     end
